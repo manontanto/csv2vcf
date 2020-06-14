@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+# csv2vcf - From CSV to VCard3
+# 2020-06-14
+# manontanto
+import csv
+import tkinter as tk
+import tkinter.filedialog as tkdialog
+import os
+import sys
+
+tmp = '''BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//Mac OS X 10.15.5//EN
+N:{0};{1};;;
+FN:{1} {0} 
+X-PHONETIC-FIRST-NAME:{3}
+X-PHONETIC-LAST-NAME:{2}
+EMAIL;type=INTERNET;type=HOME;type=pref:{4}
+TEL;type=CELL;type=VOICE;type=pref:{5}
+TEL;type=HOME;type=VOICE:{6}
+ADR;type=HOME;type=pref:;;;{7};{8};{9};
+END:VCARD'''
+
+root = tk.Tk()
+root.withdraw()
+
+read_fileName = tkdialog.askopenfilename(filetypes=[('csv files', '*.csv')],\
+        initialdir=os.getcwd())
+if not read_fileName:
+    sys.exit() # null read_fileName
+csv_file = open(read_fileName)
+my_reader = csv.reader(csv_file)
+
+vcf_fileName = tkdialog.asksaveasfilename(defaultextension='.vcf',\
+        initialdir=os.getcwd(), initialfile='myCard', title='Save as(.vcf)')
+
+if not vcf_fileName:
+    sys.exit() # null vcf_fileName
+with open(vcf_fileName, 'w', encoding='utf_8') as f:
+    for row in my_reader:
+        if row:
+            len = f.write(tmp.format(row[0],row[1],row[2],row[3],\
+                row[6],row[4],row[5],row[9],row[8],row[7]))
