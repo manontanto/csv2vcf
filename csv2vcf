@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # csv2vcf - From CSV to VCard3
+#
+# lm: 2021-01-15
 # 2020-06-14
 # manontanto
 import csv
@@ -18,8 +20,10 @@ X-PHONETIC-LAST-NAME:{2}
 EMAIL;type=INTERNET;type=HOME;type=pref:{4}
 TEL;type=CELL;type=VOICE;type=pref:{5}
 TEL;type=HOME;type=VOICE:{6}
-ADR;type=HOME;type=pref:;;;{7};{8};{9};
-END:VCARD'''
+item1.ADR;type=HOME;type=pref:;;;{7};{8};{9};
+item1.X-ABRELATEDNAMES;type=pref:{10}
+END:VCARD
+'''
 
 root = tk.Tk()
 root.withdraw()
@@ -40,4 +44,4 @@ with open(vcf_fileName, 'w', encoding='utf_8') as f:
     for row in my_reader:
         if row:
             len = f.write(tmp.format(row[0],row[1],row[2],row[3],\
-                row[6],row[4],row[5],row[9],row[8],row[7]))
+                row[6],row[4],row[5],row[9],row[8],row[7],row[10]))
